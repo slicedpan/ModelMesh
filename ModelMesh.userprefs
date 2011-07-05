@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ModelMesh/MeshElement.cs" ctype="Workbench">
+    <Files>
+      <File FileName="ModelMesh/Mesh.cs" Line="9" Column="29" />
+      <File FileName="ModelMesh/AssemblyInfo.cs" Line="14" Column="1" />
+      <File FileName="ModelMesh/VertexDeclaration.cs" Line="56" Column="18" />
+      <File FileName="ModelMesh/VectorExtensions.cs" Line="10" Column="39" />
+      <File FileName="ModelMesh/MeshElement.cs" Line="38" Column="4" />
+      <File FileName="ModelMesh/Shader.cs" Line="6" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore" />
+</Properties>
