@@ -4,8 +4,7 @@ namespace ModelMesh
 	public class NormalSmoother : IMeshOptimiser
 	{
 		float[] _optimisedVertexBuffer;
-		ushort[] _optimisedIndexBuffer;
-	
+		ushort[] _optimisedIndexBuffer;	
 
 		#region IMeshOptimiser implementation
 		void IMeshOptimiser.Apply (float[] originalVertexBuffer, ushort[] originalIndexBuffer)
