@@ -88,7 +88,7 @@ namespace ColladaImporter
 				
 				for (int j = 0; j < polyVertexCount[i]; ++j)
 				{						
-					float[] datArray = new float[8];						
+					float[] datArray = new float[_vertexDeclaration.Stride];						
 					int index = 0;
 				
 					foreach (KeyValuePair<string, Semantic> inputSemantic in semantics)
@@ -253,18 +253,23 @@ namespace ColladaImporter
 			
 			int lowest = int.MaxValue;
 			
+			Dictionary<string, Semantic> l_semDic = new Dictionary<string, Semantic>(semantics);
+			
 			KeyValuePair<string, Semantic> lowestKvp = new KeyValuePair<string, Semantic>("", new Semantic("", 0));
 			
-			while (semantics.Count != 0)
+			while (l_semDic.Count != 0)
 			{				
-				foreach (KeyValuePair<string, Semantic> kvp in semantics)
+				foreach (KeyValuePair<string, Semantic> kvp in l_semDic)
 				{
 					if (kvp.Value.Offset < lowest)
+					{
+						lowest = kvp.Value.Offset;
 						lowestKvp = kvp;
+					}
 				}
 				l_semantics.Add(lowestKvp.Value);
 				semanticNames.Add(lowestKvp.Key);
-				semantics.Remove(lowestKvp.Key);
+				l_semDic.Remove(lowestKvp.Key);
 				lowest = int.MaxValue;
 			}
 			

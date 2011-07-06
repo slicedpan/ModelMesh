@@ -13,10 +13,15 @@ namespace ModelMesh
 		public Dictionary<string, Shader> Shaders;
 		float[] _vertexBuffer;
 		ushort[] _indexBuffer;
+		int _vertexCount;
 		VertexDeclaration _vertexDeclaration;
 		
 		#region properties
 		
+		public int VertexCount
+		{
+			get { return _vertexCount; }
+		}
 		public float[] VertexBuffer
 		{
 			get { return _vertexBuffer; }
@@ -44,6 +49,7 @@ namespace ModelMesh
 			_vertexDeclaration = vertexDeclaration;
 			_vertexBuffer = vertexBuffer;
 			_indexBuffer = indexBuffer;
+			_vertexCount = _vertexBuffer.Length / _vertexDeclaration.Stride;
 		}		
 		/// <summary>
 		/// Reads an attribute from the vertex buffer.
