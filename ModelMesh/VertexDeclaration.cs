@@ -98,14 +98,31 @@ namespace ModelMesh
 			}
 		}
 		#endregion
+		
 		/// <summary>
-		/// Creates a VertexDeclaration object from vertex channels
+		/// Creates a VertexDeclaration object from vertex channels.
 		/// </summary>
 		/// <param name="vertexChannels">
-		/// A <see cref="VertexChannel[]"/> 
+		/// A list of <see cref="VertexChannel"/> objects.
 		/// </param>
 		public VertexDeclaration(params VertexChannel[] vertexChannels)
 		{
+			channels = new List<VertexChannel>();
+			foreach (VertexChannel channel in vertexChannels)
+			{
+				channels.Add(channel);
+				_stride += channel.Stride;
+			}
+		}
+		/// <summary>
+		/// Creates a VertexDeclaration object from vertex channels.
+		/// </summary>
+		/// <param name="vertexChannels">
+		/// A <see cref="List<VertexChannel>"/> containing the vertex channels that constitute the vertex declaration.
+		/// </param>
+		public VertexDeclaration(List<VertexChannel> vertexChannels)
+		{
+			channels = new List<VertexChannel>();
 			foreach (VertexChannel channel in vertexChannels)
 			{
 				channels.Add(channel);

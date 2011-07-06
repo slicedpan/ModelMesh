@@ -8,7 +8,7 @@ namespace ModelMesh
 	
 
 		#region IMeshOptimiser implementation
-		void IMeshOptimiser.Apply (float[] originalVertexBuffer, ushort originalIndexBuffer)
+		void IMeshOptimiser.Apply (float[] originalVertexBuffer, ushort[] originalIndexBuffer)
 		{
 
 		}

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("ColladaImporter")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This is a library to import 3D models from the collada .dae format and convert them to OpenGL usable types")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]

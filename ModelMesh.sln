@@ -5,12 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelMesh", "ModelMesh\Mode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColladaImporter", "ColladaImporter\ColladaImporter.csproj", "{8E299E2F-C019-4794-AC48-9D34DBEC018D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{2DCA4503-0939-45D9-96AD-13AFF3B6783B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DCA4503-0939-45D9-96AD-13AFF3B6783B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DCA4503-0939-45D9-96AD-13AFF3B6783B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DCA4503-0939-45D9-96AD-13AFF3B6783B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DCA4503-0939-45D9-96AD-13AFF3B6783B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45FB6CFF-3194-4E47-8C4F-63B73EAC4D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45FB6CFF-3194-4E47-8C4F-63B73EAC4D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45FB6CFF-3194-4E47-8C4F-63B73EAC4D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -21,6 +27,6 @@ Global
 		{8E299E2F-C019-4794-AC48-9D34DBEC018D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ModelMesh\ModelMesh.csproj
+		StartupItem = Test\Test.csproj
 	EndGlobalSection
 EndGlobal
