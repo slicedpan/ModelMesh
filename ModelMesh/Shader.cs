@@ -1,17 +1,23 @@
 using System;
 using System.Collections.Generic;
+
 namespace ModelMesh
 {
 	public class Shader
 	{
-		public virtual void Use();		
+		protected Dictionary<string, int> _uniforms;
+		protected VertexDeclaration _vertexDeclaration;
+		public virtual void Use()
+		{
+			
+		}
 		public virtual Dictionary<string, int> Uniforms
 		{
-			get;
+			get { return _uniforms; }
 		}
 		public virtual VertexDeclaration VertexDeclaration
 		{
-			get;
+			get { return _vertexDeclaration; }
 		}
 	}
 }

@@ -112,6 +112,21 @@ namespace ModelMesh
 				_stride += channel.Stride;
 			}
 		}
+		public VertexChannel GetChannel(string channelName)
+		{
+			int channelIndex = -1;
+			for (int i = 0; i < channels.Count; ++i)
+			{
+				if (channelName == channels[i].Name)
+				{
+					channelIndex = i;
+					break;
+				}
+			}
+			if (channelIndex < 0)
+				throw new Exception("vertex channel: " + channelName + " not found in vertex declaration");
+			return channels[channelIndex];
+		}
 	}
 	
 	public struct VertexPositionNormal : IVertex

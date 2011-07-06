@@ -44,6 +44,8 @@
     <Compile Include="VectorExtensions.cs" />
     <Compile Include="MeshElement.cs" />
     <Compile Include="Shader.cs" />
+    <Compile Include="IMeshOptimiser.cs" />
+    <Compile Include="NormalSmoother.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
