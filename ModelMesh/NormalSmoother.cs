@@ -11,24 +11,7 @@ namespace ModelMesh
 		MeshElement _meshElement;
 		
 		VertexDeclaration _vertexDeclaration;		
-		List<VertexChannel> unsmoothedChannels;
-		
-		public static void CopyFloatArray(float[] source, int sourceOffset, float[] dest, int destOffset, int count)
-		{
-			for (int i = 0; i < count; ++i)
-			{
-				dest[i + destOffset] = source[i + sourceOffset];
-			}
-		}
-		
-		public static void AddFloatArray(float[] source, int sourceOffset, float[] dest, int destOffset, int count)
-		{
-			for (int i = 0; i < count; ++i)
-			{
-				dest[i + destOffset] += source[i + sourceOffset];
-			}
-		}
-		
+		List<VertexChannel> unsmoothedChannels;		
 		
 		#region IMeshOptimiser implementation
 		void IMeshOptimiser.Apply (float[] originalVertexBuffer, ushort[] originalIndexBuffer, MeshElement meshElement)
@@ -84,18 +67,18 @@ namespace ModelMesh
 			
 			for (int i = 0; i < uniqueVertices.Count; ++i)
 			{				
-				CopyFloatArray(originalVertexBuffer, uniqueVertices[i] * _vertexDeclaration.Stride, _optimisedVertexBuffer, i * _vertexDeclaration.Stride, _vertexDeclaration.Stride);
+				MeshHelper.CopyFloatArray(originalVertexBuffer, uniqueVertices[i] * _vertexDeclaration.Stride, _optimisedVertexBuffer, i * _vertexDeclaration.Stride, _vertexDeclaration.Stride);
 				ChangeIndices(uniqueVertices[i], i);
 				foreach (int j in smoothingCandidates[uniqueVertices[i]])
 				{
 					float[] normal = meshElement.ReadAttribute("NORMAL", j);
-					AddFloatArray(normal, 0, _optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("NORMAL").Offset, 3);
-					int jj = j;
-					int ii = i;
+					MeshHelper.AddFloatArray(normal, 0, _optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("NORMAL").Offset, 3);
 					ChangeIndices(j, i);
 					++count;
-				}				
+				}
+				MeshHelper.Normalize(_optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("NORMAL").Offset, 3);
 			}
+			
 		}
 		
 		void ChangeIndices (int oldIndex , int newIndex)
