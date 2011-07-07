@@ -1,22 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Test/main.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ModelMesh/NormalSmoother.cs" ctype="Workbench">
     <Files>
-      <File FileName="ModelMesh/Mesh.cs" Line="28" Column="1" />
-      <File FileName="ModelMesh/AssemblyInfo.cs" Line="14" Column="1" />
-      <File FileName="ModelMesh/VertexDeclaration.cs" Line="134" Column="1" />
-      <File FileName="ModelMesh/VectorExtensions.cs" Line="10" Column="4" />
-      <File FileName="ModelMesh/MeshElement.cs" Line="66" Column="1" />
-      <File FileName="ModelMesh/Shader.cs" Line="6" Column="3" />
-      <File FileName="ColladaImporter/GeometryParser.cs" Line="60" Column="37" />
-      <File FileName="ColladaImporter/Primitives.cs" Line="52" Column="1" />
-      <File FileName="Test/main.cs" Line="13" Column="38" />
-      <File FileName="ModelMesh/NormalSmoother.cs" Line="12" Column="1" />
-      <File FileName="ColladaImporter/ColladaXML.cs" Line="16" Column="1" />
+      <File FileName="ModelMesh/MeshElement.cs" Line="50" Column="1" />
+      <File FileName="ModelMesh/NormalSmoother.cs" Line="44" Column="1" />
+      <File FileName="ColladaImporter/ArrayExtensions.cs" Line="1" Column="1" />
+      <File FileName="ModelMesh/MeshHelper.cs" Line="15" Column="61" />
+      <File FileName="MeshTest/Source/TestWindow.cs" Line="196" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/owen/Projects/ModelMesh/ModelMesh/NormalSmoother.cs" line="42" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore">
+    <Watch file="ModelMesh/MeshElement.cs" line="92" offsetX="1609" offsetY="1335" expression="_vertexDeclaration" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

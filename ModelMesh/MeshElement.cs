@@ -47,7 +47,7 @@ namespace ModelMesh
 		
 		public void Optimise(IMeshOptimiser meshOptimiser)
 		{
-			meshOptimiser.Apply(_vertexBuffer, _indexBuffer);
+			meshOptimiser.Apply(_vertexBuffer, _indexBuffer, this);
 			_vertexBuffer = meshOptimiser.optimisedVertexBuffer;
 			_indexBuffer = meshOptimiser.optimisedIndexBuffer;
 			_vertexCount = _vertexBuffer.Length / _vertexDeclaration.Stride;
@@ -63,9 +63,14 @@ namespace ModelMesh
 		
 		public void CreateGPUBuffers()
 		{
+			
+			///GenerateBufferHandles
+			
 			GL.GenVertexArrays(1, out vaoHandle);
 			GL.GenBuffers(1, out vbo);
 			GL.GenBuffers(1, out ebo);
+			
+			///Buffer Data
 			
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
 			GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(_vertexCount * _vertexDeclaration.Stride * sizeof(float)), _vertexBuffer, BufferUsageHint.StaticDraw);
@@ -73,6 +78,8 @@ namespace ModelMesh
 			GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(_indexBuffer.Length * sizeof(ushort)), _indexBuffer, BufferUsageHint.StaticDraw);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+			
+			///Create VertexArrayObject
 			
 			GL.BindVertexArray(vaoHandle);
 			
@@ -82,7 +89,7 @@ namespace ModelMesh
 			for (int i = 0; i < _vertexDeclaration.channels.Count; ++i)
 			{
 				GL.EnableVertexAttribArray(i);
-				GL.VertexAttribPointer(i, _vertexDeclaration.channels[i].Stride, VertexAttribPointerType.Float, false, _vertexDeclaration.Stride, _vertexDeclaration.channels[i].Offset);
+				GL.VertexAttribPointer(i, _vertexDeclaration.channels[i].Stride, VertexAttribPointerType.Float, false, _vertexDeclaration.Stride * sizeof(float), _vertexDeclaration.channels[i].Offset * sizeof(float));
 			}
 			
 			GL.BindVertexArray(0);
@@ -91,7 +98,11 @@ namespace ModelMesh
 		public void Draw()
 		{
 			GL.BindVertexArray(vaoHandle);
+			
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 			GL.DrawElements(BeginMode.Triangles, _indexBuffer.Length, DrawElementsType.UnsignedShort, 0);
+			
 		}		
 		
 		#region vertex buffer data read/write functions

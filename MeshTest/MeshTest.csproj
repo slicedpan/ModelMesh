@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{45FB6CFF-3194-4E47-8C4F-63B73EAC4D6F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>ModelMesh</RootNamespace>
-    <AssemblyName>ModelMesh</AssemblyName>
+    <ProjectGuid>{FA2229C4-CD55-4FB0-936C-5E31DD67ED6C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>MeshTest</RootNamespace>
+    <AssemblyName>MeshTest</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,23 +30,43 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\code\c#\monolibs\opentk\Binaries\OpenTK\Debug\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="System.Core" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-2.0</Package>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Mesh.cs" />
-    <Compile Include="VertexDeclaration.cs" />
-    <Compile Include="VectorExtensions.cs" />
-    <Compile Include="MeshElement.cs" />
-    <Compile Include="Shader.cs" />
-    <Compile Include="IMeshOptimiser.cs" />
-    <Compile Include="NormalSmoother.cs" />
-    <Compile Include="MeshHelper.cs" />
+    <Folder Include="Source\" />
+    <Folder Include="Models\" />
+    <Folder Include="Shaders\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\Easing.cs" />
+    <Compile Include="Source\Paths.cs" />
+    <Compile Include="Source\Shader.cs" />
+    <Compile Include="Source\TestWindow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\face.dae" />
+    <None Include="Models\test.dae" />
+    <None Include="Shaders\hello-gl.f.glsl" />
+    <None Include="Shaders\hello-gl.v.glsl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\ModelMesh\ModelMesh.csproj">
+      <Project>{45FB6CFF-3194-4E47-8C4F-63B73EAC4D6F}</Project>
+      <Name>ModelMesh</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColladaImporter\ColladaImporter.csproj">
+      <Project>{8E299E2F-C019-4794-AC48-9D34DBEC018D}</Project>
+      <Name>ColladaImporter</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
