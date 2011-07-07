@@ -57,6 +57,7 @@ namespace ColladaImporter
 				for (int j = 0; j < 3; ++j)
 				{
 					tris[i][j].ToArray().CopyTo(vertexData, offset * stride);
+					indexData[i * 3 + j] = (ushort)offset;
 					++offset;
 				}
 			}

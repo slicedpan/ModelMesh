@@ -1,5 +1,6 @@
 using System;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using System.Collections.Generic;
 
 namespace ModelMesh
@@ -15,6 +16,13 @@ namespace ModelMesh
 		ushort[] _indexBuffer;
 		int _vertexCount;
 		VertexDeclaration _vertexDeclaration;
+		int vaoHandle;
+		int vbo;
+		int ebo;
+		public int VertexArrayObject
+		{
+			get { return vaoHandle; }
+		}
 		
 		#region properties
 		
@@ -26,7 +34,7 @@ namespace ModelMesh
 		{
 			get { return _vertexBuffer; }
 		}
-		public ushort[] indexBuffer
+		public ushort[] IndexBuffer
 		{
 			get { return _indexBuffer; }
 		}
@@ -42,7 +50,8 @@ namespace ModelMesh
 			meshOptimiser.Apply(_vertexBuffer, _indexBuffer);
 			_vertexBuffer = meshOptimiser.optimisedVertexBuffer;
 			_indexBuffer = meshOptimiser.optimisedIndexBuffer;
-		}
+			_vertexCount = _vertexBuffer.Length / _vertexDeclaration.Stride;
+		}		
 		
 		public MeshElement (VertexDeclaration vertexDeclaration, float[] vertexBuffer, ushort[] indexBuffer)
 		{
@@ -50,7 +59,43 @@ namespace ModelMesh
 			_vertexBuffer = vertexBuffer;
 			_indexBuffer = indexBuffer;
 			_vertexCount = _vertexBuffer.Length / _vertexDeclaration.Stride;
+		}	
+		
+		public void CreateGPUBuffers()
+		{
+			GL.GenVertexArrays(1, out vaoHandle);
+			GL.GenBuffers(1, out vbo);
+			GL.GenBuffers(1, out ebo);
+			
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+			GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(_vertexCount * _vertexDeclaration.Stride * sizeof(float)), _vertexBuffer, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+			GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(_indexBuffer.Length * sizeof(ushort)), _indexBuffer, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+			
+			GL.BindVertexArray(vaoHandle);
+			
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+			
+			for (int i = 0; i < _vertexDeclaration.channels.Count; ++i)
+			{
+				GL.EnableVertexAttribArray(i);
+				GL.VertexAttribPointer(i, _vertexDeclaration.channels[i].Stride, VertexAttribPointerType.Float, false, _vertexDeclaration.Stride, _vertexDeclaration.channels[i].Offset);
+			}
+			
+			GL.BindVertexArray(0);
 		}		
+		
+		public void Draw()
+		{
+			GL.BindVertexArray(vaoHandle);
+			GL.DrawElements(BeginMode.Triangles, _indexBuffer.Length, DrawElementsType.UnsignedShort, 0);
+		}		
+		
+		#region vertex buffer data read/write functions
+		
 		/// <summary>
 		/// Reads an attribute from the vertex buffer.
 		/// </summary>
@@ -160,6 +205,7 @@ namespace ModelMesh
 				WriteAttribute(sourceArray, i * channel.Stride, attributeName, startElement + i);
 			}
 		}
+		#endregion
 	}
 }
 

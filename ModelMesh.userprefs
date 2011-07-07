@@ -1,17 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModelMesh/AssemblyInfo.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Test/main.cs" ctype="Workbench">
     <Files>
-      <File FileName="ModelMesh/Mesh.cs" Line="9" Column="29" />
+      <File FileName="ModelMesh/Mesh.cs" Line="28" Column="1" />
       <File FileName="ModelMesh/AssemblyInfo.cs" Line="14" Column="1" />
       <File FileName="ModelMesh/VertexDeclaration.cs" Line="134" Column="1" />
       <File FileName="ModelMesh/VectorExtensions.cs" Line="10" Column="4" />
-      <File FileName="ModelMesh/MeshElement.cs" Line="23" Column="32" />
+      <File FileName="ModelMesh/MeshElement.cs" Line="66" Column="1" />
       <File FileName="ModelMesh/Shader.cs" Line="6" Column="3" />
-      <File FileName="ColladaImporter/GeometryParser.cs" Line="97" Column="1" />
+      <File FileName="ColladaImporter/GeometryParser.cs" Line="60" Column="37" />
       <File FileName="ColladaImporter/Primitives.cs" Line="52" Column="1" />
-      <File FileName="Test/main.cs" Line="18" Column="1" />
+      <File FileName="Test/main.cs" Line="13" Column="38" />
       <File FileName="ModelMesh/NormalSmoother.cs" Line="12" Column="1" />
+      <File FileName="ColladaImporter/ColladaXML.cs" Line="16" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

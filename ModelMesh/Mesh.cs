@@ -21,6 +21,13 @@ namespace ModelMesh
 				element.Optimise(meshOptimiser);
 			}
 		}
+		public void CreateGPUBuffers()
+		{
+			foreach (MeshElement me in _elements)
+			{
+				me.CreateGPUBuffers();
+			}
+		}
 	}
 }
 

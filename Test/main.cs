@@ -10,7 +10,7 @@ namespace Test
 		{
 			ColladaXML daeReader = new ColladaXML(" ");
 			daeReader.Parse("test.dae");
-			Console.WriteLine("jkk");
+			daeReader.Mesh.CreateGPUBuffers();
 		}
 	}
 }
