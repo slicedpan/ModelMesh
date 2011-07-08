@@ -1,20 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModelMesh/NormalSmoother.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ColladaImporter/GeometryParser.cs" ctype="Workbench">
     <Files>
-      <File FileName="ModelMesh/MeshElement.cs" Line="50" Column="1" />
-      <File FileName="ModelMesh/NormalSmoother.cs" Line="44" Column="1" />
+      <File FileName="ModelMesh/MeshElement.cs" Line="13" Column="21" />
+      <File FileName="ModelMesh/NormalSmoother.cs" Line="14" Column="43" />
       <File FileName="ColladaImporter/ArrayExtensions.cs" Line="1" Column="1" />
-      <File FileName="ModelMesh/MeshHelper.cs" Line="15" Column="61" />
+      <File FileName="ModelMesh/MeshHelper.cs" Line="18" Column="4" />
       <File FileName="MeshTest/Source/TestWindow.cs" Line="196" Column="1" />
+      <File FileName="ColladaImporter/GeometryParser.cs" Line="9" Column="50" />
+      <File FileName="ModelMesh/VertexDeclaration.cs" Line="64" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/home/owen/Projects/ModelMesh/ModelMesh/NormalSmoother.cs" line="42" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore">
     <Watch file="ModelMesh/MeshElement.cs" line="92" offsetX="1609" offsetY="1335" expression="_vertexDeclaration" liveUpdate="False" />
+    <Watch file="ModelMesh/NormalSmoother.cs" line="64" offsetX="739" offsetY="882" expression="_optimisedVertexBuffer" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>
