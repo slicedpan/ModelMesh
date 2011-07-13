@@ -39,6 +39,10 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches ctype="PinnedWatchStore">
     <Watch file="ModelMesh/MeshElement.cs" line="92" offsetX="1609" offsetY="1335" expression="_vertexDeclaration" liveUpdate="False" />
+<<<<<<< HEAD
     <Watch file="ModelMesh/NormalSmoother.cs" line="70" offsetX="1337" offsetY="1035" expression="_optimisedVertexBuffer" liveUpdate="False" />
+=======
+    <Watch file="ModelMesh/NormalSmoother.cs" line="64" offsetX="739" offsetY="882" expression="_optimisedVertexBuffer" liveUpdate="False" />
+>>>>>>> e29f2322c592279985d573f21cd413037aa307d3
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>
