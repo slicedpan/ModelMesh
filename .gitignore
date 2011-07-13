@@ -1,4 +1,7 @@
 *.dll
 *.exe
 *.pidb
+ModelMesh/bin/*
+MeshTest/bin/*
+ColladaImporter/bin/*
 
