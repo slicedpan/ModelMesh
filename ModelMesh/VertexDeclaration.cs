@@ -99,6 +99,16 @@ namespace ModelMesh
 		}
 		#endregion
 		
+		public bool ContainsChannel(string name)
+		{
+			foreach (VertexChannel channel in channels)
+			{
+				if (channel.Name == name)
+					return true;
+			}
+			return false;
+		}
+		
 		/// <summary>
 		/// Creates a VertexDeclaration object from vertex channels.
 		/// </summary>

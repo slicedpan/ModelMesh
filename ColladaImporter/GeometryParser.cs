@@ -27,7 +27,7 @@ namespace ColladaImporter
 		XmlNamespaceManager nsManager;
 		int triCount = 0;
 		Triangle[] tris;
-		int stride;
+		//int stride;
 		#endregion
 		
 		public VertexDeclaration VertexDeclaration
@@ -46,19 +46,35 @@ namespace ColladaImporter
 			semantics = new Dictionary<string, Semantic>();			
 		}
 		
-		private void CreateArrays()
+		private void CreateArrays(bool generateTangents)
 		{
-			vertexData = new float[stride * tris.Length * 3];			
-			indexData = new ushort[tris.Length * 3];
-			int offset = 0;
-			
-			for (int i = 0; i < tris.Length; ++i)
+			if (generateTangents && _vertexDeclaration.ContainsChannel("TEXCOORD"))
 			{
-				for (int j = 0; j < 3; ++j)
+				List<VertexChannel> originalChannels = new List<VertexChannel>();
+				foreach (VertexChannel channel in _vertexDeclaration.channels)
 				{
-					tris[i][j].ToArray().CopyTo(vertexData, offset * stride);
-					indexData[i * 3 + j] = (ushort)offset;
-					++offset;
+					originalChannels.Add(channel);
+				}
+				originalChannels.Add(new VertexChannel("TANGENT", _vertexDeclaration.Stride, 3));
+				originalChannels.Add(new VertexChannel("BITANGENT", _vertexDeclaration.Stride + 3, 3));
+				_vertexDeclaration = new VertexDeclaration(originalChannels);
+				vertexData = new float[_vertexDeclaration.Stride * tris.Length * 3];
+				indexData = new ushort[tris.Length * 3];				
+			}
+			else
+			{
+				vertexData = new float[_vertexDeclaration.Stride * tris.Length * 3];			
+				indexData = new ushort[tris.Length * 3];
+				int offset = 0;
+				
+				for (int i = 0; i < tris.Length; ++i)
+				{
+					for (int j = 0; j < 3; ++j)
+					{
+						tris[i][j].ToArray().CopyTo(vertexData, offset * _vertexDeclaration.Stride);
+						indexData[i * 3 + j] = (ushort)offset;
+						++offset;
+					}
 				}
 			}
 		}
@@ -218,7 +234,6 @@ namespace ColladaImporter
 			
 						
 			_vertexDeclaration = new VertexDeclaration(GetChannels());
-			stride = _vertexDeclaration.Stride;
 			PopulateMesh();		
 			
 			Console.WriteLine("Finished Parsing Mesh");
@@ -285,7 +300,7 @@ namespace ColladaImporter
 			return channels;	
 		}
 				             
-		public MeshElement Parse(XPathNavigator nav, string geomName, bool smooth = false)
+		public MeshElement Parse(XPathNavigator nav, string geomName, bool generateTangents = false)
 		{
 			
 			Name = geomName;
@@ -297,7 +312,7 @@ namespace ColladaImporter
 			
 			ParseMesh(mesh);
 			
-			CreateArrays();
+			CreateArrays(generateTangents);
 			
 			MeshElement retMesh = new MeshElement(_vertexDeclaration, vertexData, indexData);
 			return retMesh;

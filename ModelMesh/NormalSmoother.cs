@@ -24,7 +24,7 @@ namespace ModelMesh
 			
 			foreach (VertexChannel channel in _vertexDeclaration.channels)
 			{
-				if (channel.Name != "NORMAL")
+				if (channel.Name != "NORMAL" && channel.Name != "TANGENT" && channel.Name != "BITANGENT")
 					unsmoothedChannels.Add(channel);
 			}
 			
