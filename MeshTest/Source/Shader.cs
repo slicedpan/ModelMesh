@@ -33,9 +33,11 @@ namespace tkglengine
 			var fragSource = File.ReadAllText(Paths.ShaderPath + fragmentFilename);
 			GL.ShaderSource(fragHandle, fragSource);
 			
+			Console.WriteLine("compiling shader: " + vertexFilename);
 			GL.CompileShader(vertexHandle);	
 			Console.WriteLine(GL.GetShaderInfoLog(vertexHandle));			
 			
+			Console.WriteLine("compiling shader: " + fragmentFilename);
 			GL.CompileShader(fragHandle);
 			Console.WriteLine(GL.GetShaderInfoLog(fragHandle));
 			

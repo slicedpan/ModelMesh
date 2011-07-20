@@ -15,15 +15,14 @@ namespace tkglengine
 {	
 	public class TestWindow : GameWindow
 	{
-		uint buf, buf2;
 		int vbo;
+		int debugVAO;
 		Shader shader;
+		Shader lineDrawer;
 		int shaderProgram;
 		int wvp;
 		double counter = 0;
 		Matrix4 WVP;
-		Matrix4 WV;
-		Matrix4 InverseProj;
 		Vector3[] vertices;
 		MeshElement mesh;
 		Vector3 cameraPosition;
@@ -147,8 +146,6 @@ namespace tkglengine
 			//OpenTK.Input.Mouse.SetPosition((double)mouseX, (double)mouseY);				
 
 			WVP = world * view * projection;
-			WV = world * view;
-			InverseProj = Matrix4.Invert(projection);
 			
 			base.OnUpdateFrame (e);
 		}
@@ -182,6 +179,10 @@ namespace tkglengine
 			
 			mesh.Draw();
 			
+			GL.UseProgram(lineDrawer.Handle);
+			GL.BindVertexArray(debugVAO);
+			GL.DrawArrays(BeginMode.Lines, 0, mesh.VertexCount);
+			
 			SwapBuffers();
 			
 			base.OnRenderFrame (e);
@@ -191,8 +192,8 @@ namespace tkglengine
 			
 			ColladaXML daeReader = new ColladaXML("collada_schema_1_4.xsd");
 			Console.WriteLine("Parsing File...");
-			daeReader.Parse(Paths.ModelPath + "face.dae");
-			mesh = daeReader.Mesh.Elements[2];
+			daeReader.Parse(Paths.ModelPath + "test.dae");
+			mesh = daeReader.Mesh.Elements[0];
 			mesh.Optimise(new NormalSmoother());
 			mesh.CreateGPUBuffers();
 			GL.ClearColor(Color4.Wheat);
@@ -201,6 +202,7 @@ namespace tkglengine
 			GL.DepthFunc(DepthFunction.Lequal);
 			GL.CullFace(CullFaceMode.Back);
 			shader = new Shader("hello-gl.v.glsl", "hello-gl.f.glsl");
+			lineDrawer = new Shader("linedrawer.v.glsl", "linedrawer.f.glsl");
 			
 			/*
 			GL.GenBuffers(1, out buf);
@@ -222,8 +224,28 @@ namespace tkglengine
 			lastState = OpenTK.Input.Mouse.GetState();
 			
 			CursorVisible = false;
-
+			GenerateDebugBuffer(0);
 			base.OnLoad (e);
+		}
+		void GenerateDebugBuffer(int type)
+		{			
+			float[] data = new float[mesh.VertexCount * 6];
+			for (int i = 0; i < mesh.VertexCount; ++i)
+			{
+				mesh.ReadAttribute("VERTEX", i).CopyTo(data, 0, i * 6);
+				Vector3 vec = VectorMethods.FromArray3(mesh.ReadAttribute("NORMAL", i)) + VectorMethods.FromArray3(mesh.ReadAttribute("VERTEX", i));
+				vec.ToArray().CopyTo(data, 0, (i * 6) + 3);
+			}
+			GL.GenVertexArrays(1, out debugVAO);
+			int buf;
+			GL.GenBuffers(1, out buf);
+			GL.BindVertexArray(debugVAO);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, buf);
+			GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(data.Length * sizeof(float)), data, BufferUsageHint.StaticDraw);
+			GL.EnableVertexAttribArray(0);
+			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3, 0);
+			GL.BindVertexArray(0);
+			
 		}
 		void CreateBuffer()
 		{

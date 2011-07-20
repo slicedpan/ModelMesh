@@ -3,6 +3,7 @@ using System.Xml;
 using System.Collections.Generic;
 using System.Xml.XPath;
 using ModelMesh;
+using OpenTK;
 
 namespace ColladaImporter
 {
@@ -46,10 +47,39 @@ namespace ColladaImporter
 			semantics = new Dictionary<string, Semantic>();			
 		}
 		
+		private float[] GenerateTangents(Triangle tri, int vertexNum)
+		{
+			int posOffset = _vertexDeclaration.GetChannel("VERTEX").Offset;
+			int texOffset = _vertexDeclaration.GetChannel("TEXCOORD").Offset;
+			
+			int p1 = (vertexNum + 1) % 3;
+			int p2 = (vertexNum + 2) % 3;
+			
+			Vector3 vec1 = VectorMethods.FromArray3(tri[p1].Data, posOffset);
+			vec1 -= VectorMethods.FromArray3(tri[vertexNum].Data, posOffset);
+			Vector3 vec2 = VectorMethods.FromArray3(tri[p1].Data, posOffset);
+			vec2 -= VectorMethods.FromArray3(tri[vertexNum].Data, posOffset);
+			
+			Vector2 tc1 = VectorMethods.FromArray2(tri[p1].Data, texOffset) - VectorMethods.FromArray2(tri[vertexNum].Data, texOffset);
+			Vector2 tc2 = VectorMethods.FromArray2(tri[p2].Data, texOffset) - VectorMethods.FromArray2(tri[vertexNum].Data, texOffset);
+			
+			Vector3 tangent = (tc2.Y * vec1) - (tc1.Y * vec2);
+			Vector3 bitangent = (-tc2.X * vec1) + (tc1.X * vec2);
+			
+			float[] tangents = new float[6];
+			
+			tangent.ToArray().CopyTo(tangents, 0, 0);
+			bitangent.ToArray().CopyTo(tangents, 0, 3);
+			
+			return new float[6];
+			
+		}
+		
 		private void CreateArrays(bool generateTangents)
 		{
 			if (generateTangents && _vertexDeclaration.ContainsChannel("TEXCOORD"))
 			{
+				Console.WriteLine("generating tangent frames....");
 				List<VertexChannel> originalChannels = new List<VertexChannel>();
 				foreach (VertexChannel channel in _vertexDeclaration.channels)
 				{
@@ -59,7 +89,19 @@ namespace ColladaImporter
 				originalChannels.Add(new VertexChannel("BITANGENT", _vertexDeclaration.Stride + 3, 3));
 				_vertexDeclaration = new VertexDeclaration(originalChannels);
 				vertexData = new float[_vertexDeclaration.Stride * tris.Length * 3];
-				indexData = new ushort[tris.Length * 3];				
+				indexData = new ushort[tris.Length * 3];
+				int offset = 0;
+				for (int i = 0; i < tris.Length; ++i)
+				{
+					for (int j = 0; j < 3; ++j)
+					{
+						tris[i][j].ToArray().CopyTo(vertexData, offset * _vertexDeclaration.Stride);
+						indexData[i * 3 + j] = (ushort)offset;
+						int tangentOffset = _vertexDeclaration.GetChannel("TANGENT").Offset;
+						GenerateTangents(tris[i], j).CopyTo(vertexData, (offset * _vertexDeclaration.Stride) + tangentOffset);
+						++offset;
+					}
+				}
 			}
 			else
 			{
