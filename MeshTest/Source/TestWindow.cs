@@ -6,12 +6,11 @@ using System.Xml;
 using System.Xml.Schema;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Graphics;
 using OpenTK.Input;
 using ModelMesh;
 using ColladaImporter;
 
-namespace tkglengine
+namespace MeshTest
 {	
 	public class TestWindow : GameWindow
 	{
@@ -33,12 +32,13 @@ namespace tkglengine
 		MouseState lastState;
 		Vector2 lastDelta = Vector2.Zero;
 		const float mouseMultiplier = 2.0f;
+		Texture cubetex;
 		
 		public TestWindow () : 
-			base (640, 480, GraphicsMode.Default, "test", GameWindowFlags.Default)
+			base (640, 480, OpenTK.Graphics.GraphicsMode.Default, "test", GameWindowFlags.Default)
 		{
 			
-			GL.ClearColor(Color4.Wheat);
+			GL.ClearColor(OpenTK.Graphics.Color4.Wheat);
 			Keyboard.KeyDown += HandleKeyboardKeyDown;
 			WVP = Matrix4.Identity;
 			cameraPosition = Vector3.UnitZ * - 10.0f;
@@ -154,7 +154,7 @@ namespace tkglengine
 		protected override void OnRenderFrame (FrameEventArgs e)
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);			
-
+			GL.BlendEquation(BlendEquationMode.FuncAdd);
 			GL.UseProgram(shader.Handle);
 			GL.UniformMatrix4(shader.uniforms["WVP"], false, ref WVP);
 			//GL.UniformMatrix4(shader.uniforms["InverseProj"], false, ref InverseProj);
@@ -180,8 +180,9 @@ namespace tkglengine
 			mesh.Draw();
 			
 			GL.UseProgram(lineDrawer.Handle);
+			GL.UniformMatrix4(lineDrawer.uniforms["WVP"], false, ref WVP);
 			GL.BindVertexArray(debugVAO);
-			GL.DrawArrays(BeginMode.Lines, 0, mesh.VertexCount);
+			GL.DrawArrays(BeginMode.Lines, 0, mesh.VertexCount * 2);
 			
 			SwapBuffers();
 			
@@ -192,11 +193,11 @@ namespace tkglengine
 			
 			ColladaXML daeReader = new ColladaXML("collada_schema_1_4.xsd");
 			Console.WriteLine("Parsing File...");
-			daeReader.Parse(Paths.ModelPath + "test.dae");
+			daeReader.Parse(Paths.ModelPath + "texobj.dae");
 			mesh = daeReader.Mesh.Elements[0];
 			mesh.Optimise(new NormalSmoother());
 			mesh.CreateGPUBuffers();
-			GL.ClearColor(Color4.Wheat);
+			GL.ClearColor(OpenTK.Graphics.Color4.Wheat);
 			GL.Enable(EnableCap.CullFace);
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Lequal);
@@ -224,16 +225,17 @@ namespace tkglengine
 			lastState = OpenTK.Input.Mouse.GetState();
 			
 			CursorVisible = false;
-			GenerateDebugBuffer(0);
+			GenerateDebugBuffer("BITANGENT");
+			cubetex = new Texture("test.png");
 			base.OnLoad (e);
 		}
-		void GenerateDebugBuffer(int type)
+		void GenerateDebugBuffer(string debugType)
 		{			
 			float[] data = new float[mesh.VertexCount * 6];
 			for (int i = 0; i < mesh.VertexCount; ++i)
 			{
 				mesh.ReadAttribute("VERTEX", i).CopyTo(data, 0, i * 6);
-				Vector3 vec = VectorMethods.FromArray3(mesh.ReadAttribute("NORMAL", i)) + VectorMethods.FromArray3(mesh.ReadAttribute("VERTEX", i));
+				Vector3 vec = VectorMethods.FromArray3(mesh.ReadAttribute(debugType, i)) + VectorMethods.FromArray3(mesh.ReadAttribute("VERTEX", i));
 				vec.ToArray().CopyTo(data, 0, (i * 6) + 3);
 			}
 			GL.GenVertexArrays(1, out debugVAO);
@@ -243,7 +245,7 @@ namespace tkglengine
 			GL.BindBuffer(BufferTarget.ArrayBuffer, buf);
 			GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(data.Length * sizeof(float)), data, BufferUsageHint.StaticDraw);
 			GL.EnableVertexAttribArray(0);
-			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3, 0);
+			GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
 			GL.BindVertexArray(0);
 			
 		}

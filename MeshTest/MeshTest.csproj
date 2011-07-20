@@ -41,17 +41,23 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\code\c#\monolibs\opentk\Binaries\OpenTK\Debug\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\" />
     <Folder Include="Models\" />
     <Folder Include="Shaders\" />
+    <Folder Include="Textures\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Easing.cs" />
     <Compile Include="Source\Paths.cs" />
     <Compile Include="Source\Shader.cs" />
     <Compile Include="Source\TestWindow.cs" />
+    <Compile Include="Source\Texture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\face.dae" />
@@ -60,6 +66,8 @@
     <None Include="Shaders\hello-gl.v.glsl" />
     <None Include="Shaders\linedrawer.v.glsl" />
     <None Include="Shaders\linedrawer.f.glsl" />
+    <None Include="Textures\test.png" />
+    <None Include="Models\texobj.dae" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

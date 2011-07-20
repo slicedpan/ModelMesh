@@ -70,13 +70,25 @@ namespace ModelMesh
 				if (smoothingCandidates.ContainsKey(uniqueVertices[i]))
 				{
 					foreach (int j in smoothingCandidates[uniqueVertices[i]])
-					{
+					{	
+						if (meshElement.VertexDeclaration.ContainsChannel("TANGENT"))
+						{
+							float[] tangent = meshElement.ReadAttribute("TANGENT", j);
+							MeshHelper.AddFloatArray(tangent, 0, _optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("TANGENT").Offset, 3);
+							float[] bitangent = meshElement.ReadAttribute("BITANGENT", j);
+							MeshHelper.AddFloatArray(bitangent, 0, _optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("BITANGENT").Offset, 3);
+						}
 						float[] normal = meshElement.ReadAttribute("NORMAL", j);
 						MeshHelper.AddFloatArray(normal, 0, _optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("NORMAL").Offset, 3);
 						ChangeIndices(j, i);
 					}
 				}
 				MeshHelper.Normalize(_optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("NORMAL").Offset, 3);
+				if (meshElement.VertexDeclaration.ContainsChannel("TANGENT"))
+				{
+					MeshHelper.Normalize(_optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("TANGENT").Offset, 3);
+					MeshHelper.Normalize(_optimisedVertexBuffer, i * _vertexDeclaration.Stride + _vertexDeclaration.GetChannel("BITANGENT").Offset, 3);
+				}
 			}			
 		}
 		

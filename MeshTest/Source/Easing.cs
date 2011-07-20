@@ -1,5 +1,5 @@
 using System;
-namespace tkglengine
+namespace MeshTest
 {
 	public class Easing
 	{

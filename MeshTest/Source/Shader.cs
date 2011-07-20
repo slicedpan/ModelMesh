@@ -3,7 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using System.IO;
 using System.Collections.Generic;
 
-namespace tkglengine
+namespace MeshTest
 {
 	public class Shader
 	{
