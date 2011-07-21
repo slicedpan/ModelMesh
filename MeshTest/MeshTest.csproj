@@ -68,6 +68,7 @@
     <None Include="Shaders\linedrawer.f.glsl" />
     <None Include="Textures\test.png" />
     <None Include="Models\texobj.dae" />
+    <None Include="Textures\testN.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

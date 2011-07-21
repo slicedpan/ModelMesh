@@ -33,6 +33,7 @@ namespace MeshTest
 		Vector2 lastDelta = Vector2.Zero;
 		const float mouseMultiplier = 2.0f;
 		Texture cubetex;
+		Texture cubenorm;
 		
 		public TestWindow () : 
 			base (640, 480, OpenTK.Graphics.GraphicsMode.Default, "test", GameWindowFlags.Default)
@@ -162,6 +163,16 @@ namespace MeshTest
 			Vector3 lightpos = new Vector3((float)Math.Sin(counter), (float)Math.Cos(counter), 0.0f);
 			lightpos *= 10.0f;
 			GL.Uniform3(shader.uniforms["LightPos"], lightpos);
+			GL.Uniform3(shader.uniforms["LightColor"], new Vector3(1.0f, 0.75f, 0.75f));
+			GL.Uniform3(shader.uniforms["camPos"], cameraPosition);
+			
+			GL.ActiveTexture(TextureUnit.Texture0);
+			GL.BindTexture(TextureTarget.Texture2D, cubetex.Handle);
+			GL.Uniform1(shader.uniforms["diffuseMap"], 0);
+			
+			GL.ActiveTexture(TextureUnit.Texture1);
+			GL.BindTexture(TextureTarget.Texture2D, cubenorm.Handle);
+			GL.Uniform1(shader.uniforms["normalMap"], 1);
 			
 			/*
 			GL.EnableVertexAttribArray(0);	
@@ -179,10 +190,10 @@ namespace MeshTest
 			
 			mesh.Draw();
 			
-			GL.UseProgram(lineDrawer.Handle);
+			/*GL.UseProgram(lineDrawer.Handle);
 			GL.UniformMatrix4(lineDrawer.uniforms["WVP"], false, ref WVP);
 			GL.BindVertexArray(debugVAO);
-			GL.DrawArrays(BeginMode.Lines, 0, mesh.VertexCount * 2);
+			GL.DrawArrays(BeginMode.Lines, 0, mesh.VertexCount * 2);*/
 			
 			SwapBuffers();
 			
@@ -193,8 +204,8 @@ namespace MeshTest
 			
 			ColladaXML daeReader = new ColladaXML("collada_schema_1_4.xsd");
 			Console.WriteLine("Parsing File...");
-			daeReader.Parse(Paths.ModelPath + "texobj.dae");
-			mesh = daeReader.Mesh.Elements[0];
+			daeReader.Parse(Paths.ModelPath + "face.dae");
+			mesh = daeReader.Mesh.Elements[2];
 			mesh.Optimise(new NormalSmoother());
 			mesh.CreateGPUBuffers();
 			GL.ClearColor(OpenTK.Graphics.Color4.Wheat);
@@ -225,8 +236,9 @@ namespace MeshTest
 			lastState = OpenTK.Input.Mouse.GetState();
 			
 			CursorVisible = false;
-			GenerateDebugBuffer("BITANGENT");
+			GenerateDebugBuffer("NORMAL");
 			cubetex = new Texture("test.png");
+			cubenorm = new Texture("testN.png");
 			base.OnLoad (e);
 		}
 		void GenerateDebugBuffer(string debugType)
