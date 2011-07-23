@@ -26,7 +26,7 @@ void main()
 	
 	vec3 camVec = normalize(vPos - camPos);
 	float specamount = clamp(dot(reflect(lightVec, normal), camVec), 0.0, 1.0);
-	vec3 specColor = pow(specamount, 6) * vec3(1);
+	vec3 specColor = pow(specamount, 15) * vec3(1);
 	
 	outputColor = vec4(diffuseColor + specColor, 1.0);
 	//outputColor = vec4(mapNormal, 1.0);

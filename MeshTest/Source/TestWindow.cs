@@ -56,7 +56,7 @@ namespace MeshTest
 			}	
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
-			world = Matrix4.Identity;
+			world = Matrix4.CreateRotationX(MathHelper.RadiansToDegrees(90));
 			Vector3 forwardVec = Vector3.Transform(Vector3.UnitZ, Matrix4.CreateRotationY(cameraOrientation.Y));
 			Vector3 rightVec = Vector3.Transform(Vector3.UnitZ, Matrix4.CreateRotationY(cameraOrientation.Y - MathHelper.DegreesToRadians(90.0f)));
 			
@@ -204,8 +204,8 @@ namespace MeshTest
 			
 			ColladaXML daeReader = new ColladaXML("collada_schema_1_4.xsd");
 			Console.WriteLine("Parsing File...");
-			daeReader.Parse(Paths.ModelPath + "face.dae");
-			mesh = daeReader.Mesh.Elements[2];
+			daeReader.Parse(Paths.ModelPath + "pixtest.dae");
+			mesh = daeReader.Mesh.Elements[0];
 			mesh.Optimise(new NormalSmoother());
 			mesh.CreateGPUBuffers();
 			GL.ClearColor(OpenTK.Graphics.Color4.Wheat);
@@ -237,8 +237,8 @@ namespace MeshTest
 			
 			CursorVisible = false;
 			GenerateDebugBuffer("NORMAL");
-			cubetex = new Texture("test.png");
-			cubenorm = new Texture("testN.png");
+			cubetex = new Texture("pixdiffuse.png");
+			cubenorm = new Texture("pixtestnorm.png");
 			base.OnLoad (e);
 		}
 		void GenerateDebugBuffer(string debugType)
