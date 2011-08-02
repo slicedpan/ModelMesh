@@ -7,11 +7,20 @@
       <File FileName="ModelMesh/VectorExtensions.cs" Line="31" Column="1" />
       <File FileName="ColladaImporter/ArrayExtensions.cs" Line="11" Column="1" />
       <File FileName="ColladaImporter/Primitives.cs" Line="22" Column="1" />
-      <File FileName="MeshTest/Source/TestWindow.cs" Line="167" Column="59" />
+      <File FileName="MeshTest/Source/TestWindow.cs" Line="163" Column="17" />
       <File FileName="ModelMesh/MeshElement.cs" Line="124" Column="1" />
       <File FileName="ModelMesh/NormalSmoother.cs" Line="77" Column="69" />
       <File FileName="MeshTest/Shaders/hello-gl.f.glsl" Line="29" Column="47" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="MeshTest" expanded="True" selected="True">
+            <Node name="Source" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
