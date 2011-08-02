@@ -58,6 +58,9 @@
     <Compile Include="Source\Shader.cs" />
     <Compile Include="Source\TestWindow.cs" />
     <Compile Include="Source\Texture.cs" />
+    <Compile Include="Source\Animator.cs" />
+    <Compile Include="Source\Animation.cs" />
+    <Compile Include="Source\Frame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\face.dae" />
@@ -69,6 +72,8 @@
     <None Include="Textures\test.png" />
     <None Include="Models\texobj.dae" />
     <None Include="Textures\testN.png" />
+    <None Include="Shaders\test.v.glsl" />
+    <None Include="Shaders\test.f.glsl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

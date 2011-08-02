@@ -1,17 +1,39 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" ctype="Workspace" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MeshTest/Source/TestWindow.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MeshTest/Shaders/test.f.glsl" ctype="Workbench">
     <Files>
-      <File FileName="MeshTest/Source/Shader.cs" Line="6" Column="19" />
+      <File FileName="MeshTest/Source/Shader.cs" Line="20" Column="45" />
       <File FileName="ColladaImporter/GeometryParser.cs" Line="103" Column="7" />
+      <File FileName="MeshTest/Source/TestWindow.cs" Line="174" Column="74" />
       <File FileName="ModelMesh/VectorExtensions.cs" Line="31" Column="1" />
       <File FileName="ColladaImporter/ArrayExtensions.cs" Line="11" Column="1" />
-      <File FileName="ColladaImporter/Primitives.cs" Line="22" Column="1" />
-      <File FileName="MeshTest/Source/TestWindow.cs" Line="59" Column="68" />
-      <File FileName="ModelMesh/MeshElement.cs" Line="124" Column="1" />
-      <File FileName="ModelMesh/NormalSmoother.cs" Line="77" Column="69" />
-      <File FileName="MeshTest/Shaders/hello-gl.f.glsl" Line="29" Column="37" />
+      <File FileName="MeshTest/Shaders/test.v.glsl" Line="27" Column="35" />
+      <File FileName="MeshTest/Shaders/test.f.glsl" Line="35" Column="39" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="ColladaImporter" expanded="True" />
+          <Node name="MeshTest" expanded="True">
+            <Node name="Models" expanded="True" />
+            <Node name="Shaders" expanded="True">
+              <Node name="test.f.glsl" selected="True" />
+            </Node>
+            <Node name="Source" expanded="True" />
+            <Node name="Textures" expanded="True" />
+          </Node>
+          <Node name="ModelMesh" expanded="True" />
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>nodeQueue._items</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
