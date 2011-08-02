@@ -36,7 +36,7 @@ namespace MeshTest
 		Texture cubetex;
 		Texture cubenorm;
 		Texture megamanTex;
-		Animator Animator;
+		Animator animator;
 		
 		public TestWindow () : 
 			base (640, 480, OpenTK.Graphics.GraphicsMode.Default, "test", GameWindowFlags.Default)
@@ -59,7 +59,7 @@ namespace MeshTest
 			}	
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
-			Animator.Update(e.Time);
+			animator.Update(e.Time);
 			world = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-90.0f));
 			Vector3 forwardVec = Vector3.Transform(Vector3.UnitZ, Matrix4.CreateRotationY(cameraOrientation.Y));
 			Vector3 rightVec = Vector3.Transform(Vector3.UnitZ, Matrix4.CreateRotationY(cameraOrientation.Y - MathHelper.DegreesToRadians(90.0f)));
@@ -169,7 +169,7 @@ namespace MeshTest
 			Vector3 lightpos = new Vector3((float)Math.Sin(counter), 0.0f, (float)Math.Cos(counter));
 			lightpos *= 10.0f;
 			//Vector3 lightpos = new Vector3(0.0f, 0.0f, -10.0f);
-			Frame currentFrame = Animator.Current;
+			Frame currentFrame = animator.Current;
 
 				GL.Uniform3(shader.uniforms["LightPos"], Vector3.Transform(lightpos, view));
 				GL.Uniform3(shader.uniforms["LightColor"], new Vector3(0.75f, 0.75f, 1.0f));
@@ -257,7 +257,7 @@ namespace MeshTest
 			cubetex = new Texture("test.png");
 			cubenorm = new Texture("testN.png");
 			megamanTex = new Texture("megamansheet.png");
-			Animator = new Animator();
+			animator = new Animator();
 			Animation animation = new Animation();
 			animation.speed = 10.0d;
 			
@@ -268,7 +268,7 @@ namespace MeshTest
 			animation.Add(180, 60, 40, 50);
 			animation.Add(220, 60, 40, 50);
 			
-			Animator.AddAnimation("default", animation);
+			animator.AddAnimation("default", animation);
 			
 			base.OnLoad (e);
 		}
