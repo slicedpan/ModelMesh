@@ -105,6 +105,15 @@ namespace ModelMesh
 			
 		}		
 		
+		public void DrawInstanced(int num)
+		{
+			GL.BindVertexArray(vaoHandle);
+			
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+			GL.DrawElementsInstanced(BeginMode.Triangles, _indexBuffer.Length, DrawElementsType.UnsignedShort, new IntPtr(0), num);
+		}
+		
 		#region vertex buffer data read/write functions
 		
 		/// <summary>

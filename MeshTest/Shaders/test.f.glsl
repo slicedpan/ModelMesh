@@ -7,7 +7,6 @@ in vec3 vPos;
 in vec2 texCoord;
 in vec3 tangent;
 in vec3 bitangent;
-in vec3 color;
 
 uniform vec3 LightPos;
 uniform vec3 LightColor;
@@ -23,15 +22,15 @@ void main()
 	
 	vec3 lightVec = normalize(LightPos - vPos);
 	vec3 lightAmount = clamp(dot(lightVec, pixNormal), 0.1, 1.0) * LightColor;	
-	vec4 texColor = texture2D(diffuseMap, vec2(texCoord.x, texCoord.y * -1));
-	vec3 diffuseColor = (texColor.w * texColor.xyz) + ((1 - texColor.w) * color);
-	diffuseColor *= lightAmount;
+	vec3 texColor = texture2D(diffuseMap, vec2(texCoord.x, texCoord.y * -1)).xyz;
+	
+	texColor *= lightAmount;
 	
 	vec3 camVec = normalize(vPos - camPos);
 	
 	float specamount = clamp(dot(reflect(lightVec, normal), camVec), 0.0, 1.0);
-	vec3 specColor = pow(specamount, 15) * vec3(1);
+	vec3 specColor = pow(specamount, 15) * vec3(0, 1, 0);
 	
-	outputColor = vec4(diffuseColor + specColor, 1.0);
+	outputColor = vec4(texColor + specColor, 1.0);
 	//outputColor = vec4(mapNormal, 1.0);
 }

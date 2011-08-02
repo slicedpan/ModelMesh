@@ -22,6 +22,7 @@ namespace MeshTest
 		int wvp;
 		double counter = 0;
 		Matrix4 WVP;
+		Matrix4 WV;
 		Vector3[] vertices;
 		MeshElement mesh;
 		Vector3 cameraPosition;
@@ -34,6 +35,8 @@ namespace MeshTest
 		const float mouseMultiplier = 2.0f;
 		Texture cubetex;
 		Texture cubenorm;
+		Texture megamanTex;
+		Animator Animator;
 		
 		public TestWindow () : 
 			base (640, 480, OpenTK.Graphics.GraphicsMode.Default, "test", GameWindowFlags.Default)
@@ -56,7 +59,8 @@ namespace MeshTest
 			}	
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
-			world = Matrix4.Identity;
+			Animator.Update(e.Time);
+			world = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-90.0f));
 			Vector3 forwardVec = Vector3.Transform(Vector3.UnitZ, Matrix4.CreateRotationY(cameraOrientation.Y));
 			Vector3 rightVec = Vector3.Transform(Vector3.UnitZ, Matrix4.CreateRotationY(cameraOrientation.Y - MathHelper.DegreesToRadians(90.0f)));
 			
@@ -146,34 +150,46 @@ namespace MeshTest
 			
 			//OpenTK.Input.Mouse.SetPosition((double)mouseX, (double)mouseY);				
 
-			WVP = world * view * projection;
 			
+			WV = world * view;
+			WVP = WV * projection;
 			base.OnUpdateFrame (e);
 		}
 		
 		
 		protected override void OnRenderFrame (FrameEventArgs e)
 		{
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);			
-			GL.BlendEquation(BlendEquationMode.FuncAdd);
+			
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			GL.UseProgram(shader.Handle);
 			GL.UniformMatrix4(shader.uniforms["WVP"], false, ref WVP);
+			GL.UniformMatrix4(shader.uniforms["WV"], false, ref WV);
 			//GL.UniformMatrix4(shader.uniforms["InverseProj"], false, ref InverseProj);
 			counter += 0.01f;
-			Vector3 lightpos = new Vector3((float)Math.Sin(counter), (float)Math.Cos(counter), 0.0f);
+			Vector3 lightpos = new Vector3((float)Math.Sin(counter), 0.0f, (float)Math.Cos(counter));
 			lightpos *= 10.0f;
-			GL.Uniform3(shader.uniforms["LightPos"], lightpos);
-			GL.Uniform3(shader.uniforms["LightColor"], new Vector3(1.0f, 0.75f, 0.75f));
-			GL.Uniform3(shader.uniforms["camPos"], cameraPosition);
-			
-			GL.ActiveTexture(TextureUnit.Texture0);
-			GL.BindTexture(TextureTarget.Texture2D, cubetex.Handle);
-			GL.Uniform1(shader.uniforms["diffuseMap"], 0);
-			
-			GL.ActiveTexture(TextureUnit.Texture1);
-			GL.BindTexture(TextureTarget.Texture2D, cubenorm.Handle);
-			GL.Uniform1(shader.uniforms["normalMap"], 1);
-			
+			//Vector3 lightpos = new Vector3(0.0f, 0.0f, -10.0f);
+			Frame currentFrame = Animator.Current;
+
+				GL.Uniform3(shader.uniforms["LightPos"], Vector3.Transform(lightpos, view));
+				GL.Uniform3(shader.uniforms["LightColor"], new Vector3(0.75f, 0.75f, 1.0f));
+				GL.Uniform3(shader.uniforms["camPos"], Vector3.Transform(cameraPosition, view));
+				//GL.Uniform1(shader.uniforms["pixWidth"], currentFrame.width);
+				//GL.Uniform1(shader.uniforms["textureWidth"], 850);
+				//GL.Uniform1(shader.uniforms["textureHeight"], 584);
+				//GL.Uniform1(shader.uniforms["offsetX"], currentFrame.xOffset);
+				//GL.Uniform1(shader.uniforms["offsetY"], currentFrame.yOffset);
+				
+				
+				GL.ActiveTexture(TextureUnit.Texture0);
+				GL.BindTexture(TextureTarget.Texture2D, cubetex.Handle);
+				GL.Uniform1(shader.uniforms["diffuseMap"], 0);
+				
+				GL.ActiveTexture(TextureUnit.Texture1);
+				GL.BindTexture(TextureTarget.Texture2D, cubenorm.Handle);
+				GL.Uniform1(shader.uniforms["normalMap"], 1);
+
+				
 			/*
 			GL.EnableVertexAttribArray(0);	
 			GL.EnableVertexAttribArray(1);
@@ -189,6 +205,7 @@ namespace MeshTest
 			GL.DisableVertexAttribArray(1);			*/
 			
 			mesh.Draw();
+			//mesh.DrawInstanced(100);
 			
 			/*GL.UseProgram(lineDrawer.Handle);
 			GL.UniformMatrix4(lineDrawer.uniforms["WVP"], false, ref WVP);
@@ -204,8 +221,8 @@ namespace MeshTest
 			
 			ColladaXML daeReader = new ColladaXML("collada_schema_1_4.xsd");
 			Console.WriteLine("Parsing File...");
-			daeReader.Parse(Paths.ModelPath + "face.dae");
-			mesh = daeReader.Mesh.Elements[2];
+			daeReader.Parse(Paths.ModelPath + "texobj.dae");
+			mesh = daeReader.Mesh.Elements[0];
 			mesh.Optimise(new NormalSmoother());
 			mesh.CreateGPUBuffers();
 			GL.ClearColor(OpenTK.Graphics.Color4.Wheat);
@@ -213,7 +230,7 @@ namespace MeshTest
 			GL.Enable(EnableCap.DepthTest);
 			GL.DepthFunc(DepthFunction.Lequal);
 			GL.CullFace(CullFaceMode.Back);
-			shader = new Shader("hello-gl.v.glsl", "hello-gl.f.glsl");
+			shader = new Shader("test.v.glsl", "test.f.glsl");
 			lineDrawer = new Shader("linedrawer.v.glsl", "linedrawer.f.glsl");
 			
 			/*
@@ -239,6 +256,20 @@ namespace MeshTest
 			GenerateDebugBuffer("NORMAL");
 			cubetex = new Texture("test.png");
 			cubenorm = new Texture("testN.png");
+			megamanTex = new Texture("megamansheet.png");
+			Animator = new Animator();
+			Animation animation = new Animation();
+			animation.speed = 10.0d;
+			
+			animation.Add(20, 60, 40, 50);
+			animation.Add(60, 60, 40, 50);
+			animation.Add(100, 60, 40, 50);
+			animation.Add(140, 60, 40, 50);
+			animation.Add(180, 60, 40, 50);
+			animation.Add(220, 60, 40, 50);
+			
+			Animator.AddAnimation("default", animation);
+			
 			base.OnLoad (e);
 		}
 		void GenerateDebugBuffer(string debugType)
